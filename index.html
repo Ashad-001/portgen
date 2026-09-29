@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PortGen | Automated Portfolio Builder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <div class="logo" aria-label="PortGen logo">PortGen</div>
+      <div class="header-actions">
+        <nav aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a class="nav-link is-active" aria-current="page" href="index.html">Home</a></li>
+            <li><a class="nav-link" href="builder.php">Create Portfolio</a></li>
+            <li data-auth="guest" hidden><a class="nav-link" href="login.php">Login</a></li>
+            <li data-auth="guest" hidden><a class="nav-link" href="signup.php">Sign Up</a></li>
+            <li data-auth="user" hidden>
+              <a class="nav-link profile-pill" href="profile.php" aria-label="Profile">
+                <span class="profile-avatar" data-profile-avatar>P</span>
+                <span data-profile-label>Profile</span>
+              </a>
+            </li>
+            <li data-auth="user" hidden><a class="nav-link" href="logout.php">Logout</a></li>
+          </ul>
+        </nav>
+        <a data-auth="user" hidden href="my-portfolios.php" class="my-portfolios-btn">My Portfolios</a>
+        <button class="theme-icon-button" type="button" data-theme-toggle aria-label="Toggle theme"></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <h1>Create your professional portfolio in seconds.</h1>
+          <p class="lead">PortGen builds polished portfolios from your details—no coding needed. Perfect for students who want to build fast.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="builder.php">Start Building Free</a>
+            <a class="button ghost" href="#">Pricing</a>
+          </div>
+          <p class="subtext">Fast setup · Clean templates · Ready to share</p>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="shape shape-orange"></div>
+          <div class="shape shape-dots"></div>
+          <div class="shape shape-blue"></div>
+          <div class="mock-card">
+            <div class="mock-header">
+              <span class="mock-tab is-active">Portfolio</span>
+              <span class="mock-tab">Preview</span>
+            </div>
+            <div class="mock-body">
+              <div class="mock-row">
+                <div class="mock-label">Full Name</div>
+                <div class="mock-value">Jane Doe</div>
+              </div>
+              <div class="mock-row">
+                <div class="mock-label">Title</div>
+                <div class="mock-value">Front-End Developer</div>
+              </div>
+              <div class="mock-row">
+                <div class="mock-label">Skills</div>
+                <div class="mock-value">HTML · CSS · UI</div>
+              </div>
+              <div class="mock-progress">
+                <div class="mock-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container section-header reveal">
+        <p class="eyebrow">Why PortGen</p>
+        <h2>Everything you need to share your story</h2>
+        <p class="lead">Guided inputs, polished templates, and export-ready sections so you can focus on your work—not wrestling with code.</p>
+      </div>
+      <div class="container feature-grid">
+        <article class="feature-card reveal" style="--delay:0ms">
+          <h3>Structured form</h3>
+          <p>Just fill your name, title, bio, and skills. PortGen arranges them into a clean portfolio layout instantly.</p>
+        </article>
+        <article class="feature-card reveal" style="--delay:120ms">
+          <h3>Modern styling</h3>
+          <p>Built with semantic HTML5 and modern CSS so your portfolio looks professional on any screen size.</p>
+        </article>
+        <article class="feature-card reveal" style="--delay:240ms">
+          <h3>One-click handoff</h3>
+          <p>Start in class, finish at home. Your data stays consistent, ready to publish or present.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div class="container section-header reveal">
+        <p class="eyebrow">How it works</p>
+        <h2>Build in three simple steps</h2>
+        <p class="lead">No plugins or frameworks—just straightforward HTML and CSS.</p>
+      </div>
+      <div class="container steps-list">
+        <div class="step-card reveal" style="--delay:0ms">
+          <span class="step-number">01</span>
+          <div>
+            <h3>Enter your details</h3>
+            <p>Open Create Portfolio and add your name, title, bio, and skills.</p>
+          </div>
+        </div>
+        <div class="step-card reveal" style="--delay:140ms">
+          <span class="step-number">02</span>
+          <div>
+            <h3>Review the preview</h3>
+            <p>See your info placed into a clean, presentation-ready layout.</p>
+          </div>
+        </div>
+        <div class="step-card reveal" style="--delay:280ms">
+          <span class="step-number">03</span>
+          <div>
+            <h3>Share or present</h3>
+            <p>Use it for your Web Technologies 2 progress review or publish it online.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2026 PortGen · Automated Portfolio Builder</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const toggleBtn = document.querySelector('[data-theme-toggle]');
+      const body = document.body;
+      const sun = '<svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.4m0 14.2v2.4M21.5 12h-2.4M4.9 12H2.5m14.2 7.1-1.7-1.7M8 6.1 6.3 4.4m11.9 0L16.5 6.1M8 17.9 6.3 19.6"/></svg>';
+      const moon = '<svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.5a7.8 7.8 0 1 1-9-9.8 7 7 0 1 0 9 9.8Z"/></svg>';
+      let saved = localStorage.getItem('portgen-theme');
+      if (saved === 'dark') saved = 'warm';
+      if (saved === 'warm' || saved === 'light') body.dataset.theme = saved;
+      const setIcon = () => {
+        if (!toggleBtn) return;
+        const isWarm = body.dataset.theme === 'warm';
+        toggleBtn.innerHTML = isWarm ? sun : moon;
+        toggleBtn.setAttribute('aria-label', isWarm ? 'Switch to light theme' : 'Switch to warm theme');
+      };
+      setIcon();
+      toggleBtn?.addEventListener('click', () => {
+        const next = body.dataset.theme === 'warm' ? 'light' : 'warm';
+        body.dataset.theme = next;
+        localStorage.setItem('portgen-theme', next);
+        setIcon();
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      const setAuthNav = async () => {
+        try {
+          const response = await fetch('auth-status.php', { credentials: 'same-origin' });
+          if (!response.ok) return;
+          const auth = await response.json();
+          const loggedIn = !!auth.loggedIn;
+
+          document.querySelectorAll('[data-auth="guest"]').forEach((el) => {
+            el.hidden = loggedIn;
+          });
+          document.querySelectorAll('[data-auth="user"]').forEach((el) => {
+            el.hidden = !loggedIn;
+          });
+
+          if (loggedIn) {
+            const fullname = (auth.fullname || 'Profile').trim();
+            const firstName = fullname.split(/\s+/)[0] || 'Profile';
+            const initial = firstName.charAt(0).toUpperCase() || 'P';
+            document.querySelectorAll('[data-profile-label]').forEach((el) => {
+              el.textContent = firstName;
+            });
+            document.querySelectorAll('[data-profile-avatar]').forEach((el) => {
+              el.textContent = initial;
+            });
+          }
+        } catch (error) {
+          console.error('Could not determine auth status.', error);
+        }
+      };
+
+      setAuthNav();
+    })();
+  </script>
+</body>
+</html>

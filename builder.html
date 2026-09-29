@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PortGen | Create Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Importing modern font for a clean look */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
+    :root {
+      --primary: #2563eb; /* Your modern blue */
+      --primary-hover: #1d4ed8;
+      --dark: #1e293b;
+      --text: #334155;
+      --bg-light: #f1f5f9;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc; /* Lighter background */
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* The overall card container from your design */
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 600px;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+      border: 1px solid rgba(0,0,0,0.02);
+      min-height: 500px; /* Keep the card container stable */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hidden elements by default for multi-step */
+    .form-step {
+      display: none;
+      animation: slideIn 0.4s ease-out;
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    /* Active class for current step */
+    .form-step.active {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Updated Typography to match image */
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+
+    /* Modern Input Fields from previous step */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group-helper {
+      display: block;
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--dark);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      box-sizing: border-box; /* Crucial for proper padding */
+      transition: all 0.2s;
+      background: #fdfdfd;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* MODERN MULTI-STEP BUTTONS */
+    .button-group {
+      margin-top: 30px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Base style for all form buttons */
+    .btn-next, button[type="submit"] {
+      flex: 1; /* Stretch buttons equally */
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+      text-align: center;
+    }
+
+    .btn-next:hover, button[type="submit"]:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Secondary 'Back' button style */
+    .btn-back {
+      flex: 0 0 auto; /* Don't stretch */
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    .btn-back:hover {
+      background-color: #e2e8f0;
+    }
+
+    .skill-builder {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fbff;
+    }
+
+    .skill-builder-grid {
+      display: grid;
+      grid-template-columns: 1fr 120px auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .skill-level-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .skill-level-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-align: right;
+    }
+
+    .btn-add-skill {
+      border: 0;
+      background: #0ea5e9;
+      color: #fff;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-add-skill:hover {
+      background: #0284c7;
+    }
+
+    .skills-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .skill-item {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+    }
+
+    .skill-item-name {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 13px;
+    }
+
+    .skill-item-level {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1d4ed8;
+      min-width: 48px;
+      text-align: right;
+    }
+
+    .btn-remove-skill {
+      border: 0;
+      background: #fee2e2;
+      color: #b91c1c;
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-remove-skill:hover {
+      background: #fecaca;
+    }
+
+    .education-builder {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fbff;
+      display: grid;
+      gap: 10px;
+    }
+
+    .education-builder-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .education-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 2px;
+    }
+
+    .btn-add-education {
+      border: 0;
+      background: #2563eb;
+      color: #fff;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-add-education:hover {
+      background: #1d4ed8;
+    }
+
+    .education-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .education-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+    }
+
+    .education-item-title {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .education-item-subtitle {
+      font-size: 12px;
+      color: #475569;
+      margin-top: 3px;
+    }
+
+    .btn-remove-education {
+      border: 0;
+      background: #fee2e2;
+      color: #b91c1c;
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-remove-education:hover {
+      background: #fecaca;
+    }
+
+    @media (max-width: 640px) {
+      .skill-builder-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .education-builder-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Simple animation for step changes */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <div class="logo" aria-label="PortGen logo">PortGen</div>
+      <div class="header-actions">
+        <nav aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a class="nav-link" href="index.html">Home</a></li>
+            <li><a class="nav-link is-active" aria-current="page" href="builder.php">Create Portfolio</a></li>
+            <li data-auth="guest" hidden><a class="nav-link" href="login.php">Login</a></li>
+            <li data-auth="guest" hidden><a class="nav-link" href="signup.php">Sign Up</a></li>
+            <li data-auth="user" hidden>
+              <a class="nav-link profile-pill" href="profile.php" aria-label="Profile">
+                <span class="profile-avatar" data-profile-avatar>P</span>
+                <span data-profile-label>Profile</span>
+              </a>
+            </li>
+            <li data-auth="user" hidden><a class="nav-link" href="logout.php">Logout</a></li>
+          </ul>
+        </nav>
+        <a data-auth="user" hidden href="my-portfolios.php" class="my-portfolios-btn">My Portfolios</a>
+        <button class="theme-icon-button" type="button" data-theme-toggle aria-label="Toggle theme"></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="builder">
+      <div class="dot-shape"></div>
+      <div class="container builder-grid">
+        <div class="builder-copy">
+          <p class="badge">Dashboard</p>
+          <h1>Enter your details to generate your portfolio</h1>
+          <p class="lead">Fill out the form and PortGen will create a professional portfolio layout for you to present in your course.</p>
+        </div>
+
+        <div class="card">
+          <form id="portfolioForm" action="process.php" method="POST" enctype="multipart/form-data">
+            <div class="form-step active" id="step1">
+              <h3>Step 1: Personal Details</h3>
+              
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="fullname" placeholder="e.g. Ashad Akram" required>
+              </div>
+
+              <div class="form-group">
+                <label>Professional Title</label>
+                <input type="text" name="title" placeholder="e.g. Full Stack Developer" required>
+              </div>
+
+              <div class="form-group">
+                <label>Upload Profile Photo</label>
+                <input type="file" name="photo_file" accept="image/*" />
+              </div>
+
+              <div class="button-group">
+                <button type="button" class="btn-next" onclick="nextStep(2)">Next: Contact Info</button>
+              </div>
+            </div>
+
+            <div class="form-step" id="step2">
+              <h3>Step 2: Contact</h3>
+              
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="email@example.com" required>
+              </div>
+              
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" name="phone" placeholder="+973 XXXXXXXX">
+              </div>
+
+              <div class="form-group">
+                <label>Location</label>
+                <input type="text" name="location" placeholder="e.g. Manama, Bahrain">
+              </div>
+
+              <div class="button-group">
+                <button type="button" class="btn-next btn-back" onclick="prevStep(1)">Back</button>
+                <button type="button" class="btn-next" onclick="nextStep(3)">Next: Social Links</button>
+              </div>
+            </div>
+
+            <div class="form-step" id="step3">
+              <h3>Step 3: Social Links</h3>
+
+              <div class="form-group">
+                <label>LinkedIn URL (Optional)</label>
+                <input type="text" name="linkedin" placeholder="linkedin.com/in/username or any text">
+              </div>
+
+              <div class="form-group">
+                <label>GitHub URL (Optional)</label>
+                <input type="text" name="github" placeholder="github.com/username or any text">
+              </div>
+
+              <div class="button-group">
+                <button type="button" class="btn-next btn-back" onclick="prevStep(2)">Back</button>
+                <button type="button" class="btn-next" onclick="nextStep(4)">Next: Education</button>
+              </div>
+            </div>
+
+            <div class="form-step" id="step4">
+              <h3>Step 4: Education History</h3>
+              
+              <div class="form-group">
+                <label>Education History</label>
+                <input type="hidden" name="education_data" id="educationData" value="[]">
+                <input type="hidden" name="edu_school" id="eduSchoolPrimary" value="">
+                <input type="hidden" name="edu_degree" id="eduDegreePrimary" value="">
+                <input type="hidden" name="edu_start" id="eduStartPrimary" value="">
+                <input type="hidden" name="edu_end" id="eduEndPrimary" value="">
+
+                <div class="education-builder">
+                  <div class="education-builder-grid">
+                    <div>
+                      <label for="eduSchoolInput">University/School</label>
+                      <input type="text" id="eduSchoolInput" placeholder="University of Technology Bahrain">
+                    </div>
+                    <div>
+                      <label for="eduDegreeInput">Degree</label>
+                      <input type="text" id="eduDegreeInput" placeholder="BS in Information Technology">
+                    </div>
+                    <div>
+                      <label for="eduStartInput">Start Date</label>
+                      <input type="date" id="eduStartInput">
+                    </div>
+                    <div>
+                      <label for="eduEndInput">End Date (or expected)</label>
+                      <input type="date" id="eduEndInput">
+                    </div>
+                  </div>
+                  <div class="education-actions">
+                    <button type="button" class="btn-add-education" id="addEducationBtn">Add Education</button>
+                  </div>
+                  <div class="education-list" id="educationList"></div>
+                  <span class="form-group-helper">Add one or more entries. Put your latest education first.</span>
+                </div>
+              </div>
+
+              <div class="button-group">
+                <button type="button" class="btn-next btn-back" onclick="prevStep(3)">Back</button>
+                <button type="button" class="btn-next" onclick="nextStep(5)">Next: Skills</button>
+              </div>
+            </div>
+
+            <div class="form-step" id="step5">
+              <h3>Step 5: Skills</h3>
+
+              <div class="form-group">
+                <label>Skills & Proficiency Levels</label>
+                <input type="hidden" name="skills" id="skillsCsv" value="">
+                <input type="hidden" name="skills_data" id="skillsData" value="[]">
+                <div class="skill-builder">
+                  <div class="skill-builder-grid">
+                    <div>
+                      <label for="skillNameInput">Skill Name</label>
+                      <input type="text" id="skillNameInput" placeholder="e.g. JavaScript">
+                    </div>
+                    <div class="skill-level-wrap">
+                      <label for="skillLevelInput">Level</label>
+                      <input type="range" id="skillLevelInput" min="10" max="100" step="5" value="80">
+                      <div class="skill-level-value" id="skillLevelValue">80%</div>
+                    </div>
+                    <button type="button" class="btn-add-skill" id="addSkillBtn">Add Skill</button>
+                  </div>
+                  <div class="skills-list" id="skillsList"></div>
+                  <span class="form-group-helper">Add at least 2 skills. You can set each skill level for portfolio bars.</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Professional Tagline</label>
+                <input type="text" name="tagline" placeholder="e.g. Building practical full-stack web experiences">
+              </div>
+
+              <div class="button-group">
+                <button type="button" class="btn-next btn-back" onclick="prevStep(4)">Back</button>
+                <button type="button" class="btn-next" onclick="nextStep(6)">Next: Final Details</button>
+              </div>
+            </div>
+
+            <div class="form-step" id="step6">
+              <h3>Step 6: Final Touches</h3>
+              
+              <div class="form-group">
+                <label>Short Bio</label>
+                <textarea name="bio" placeholder="Tell your story..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Achievements</label>
+                <textarea name="achievements" placeholder="List your certifications or awards..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Years of Experience</label>
+                <input type="number" name="years_experience" min="0" max="50" placeholder="e.g. 2">
+              </div>
+
+              <div class="form-group">
+                <label>Availability</label>
+                <input type="text" name="availability" placeholder="e.g. Open to internships / freelance / full-time">
+              </div>
+
+              <div class="button-group">
+                <button type="button" class="btn-next btn-back" onclick="prevStep(5)">Back</button>
+                <button type="submit">Generate My Professional Portfolio</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="builder-extras">
+      <div class="container section-header reveal">
+        <p class="eyebrow">Guidance</p>
+        <h2>What makes a great portfolio submission</h2>
+        <p class="lead">Follow these pointers while you fill the form so your midterm submission feels clear and complete.</p>
+      </div>
+
+      <div class="container info-grid">
+        <article class="info-card reveal" style="--delay:0ms">
+          <h3>Be concise</h3>
+          <p>Keep your bio under 3-4 sentences. Lead with your role, what you build, and the value you create.</p>
+        </article>
+        <article class="info-card reveal" style="--delay:140ms">
+          <h3>List strengths</h3>
+          <ul class="bullets">
+            <li>Pick 3-6 skills that reflect your strongest areas.</li>
+            <li>Use commas to separate skills (e.g., HTML, CSS, JavaScript).</li>
+          </ul>
+        </article>
+        <article class="info-card reveal" style="--delay:280ms">
+          <h3>Match your audience</h3>
+          <p>Highlight coursework and projects that align with Web Technologies 2 outcomes—clean code and responsive design.</p>
+        </article>
+      </div>
+
+      <div class="container tips-grid">
+        <div class="tip-card reveal" style="--delay:0ms">
+          <div class="tip-title">Preview checklist</div>
+          <ul class="checklist">
+            <li>Full name appears correctly</li>
+            <li>Title matches your focus</li>
+            <li>Bio is short and clear</li>
+            <li>Skills are comma-separated</li>
+          </ul>
+        </div>
+        <div class="tip-card reveal" style="--delay:180ms">
+          <div class="tip-title">Ready for class</div>
+          <p class="muted">After you generate, present the preview to show layout, responsiveness, and semantic structure—no extra code needed.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2026 PortGen · Automated Portfolio Builder</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const toggleBtn = document.querySelector('[data-theme-toggle]');
+      const body = document.body;
+      const sun = '<svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.4m0 14.2v2.4M21.5 12h-2.4M4.9 12H2.5m14.2 7.1-1.7-1.7M8 6.1 6.3 4.4m11.9 0L16.5 6.1M8 17.9 6.3 19.6"/></svg>';
+      const moon = '<svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.5a7.8 7.8 0 1 1-9-9.8 7 7 0 1 0 9 9.8Z"/></svg>';
+      let saved = localStorage.getItem('portgen-theme');
+      if (saved === 'dark') saved = 'warm';
+      if (saved === 'warm' || saved === 'light') body.dataset.theme = saved;
+      const setIcon = () => {
+        if (!toggleBtn) return;
+        const isWarm = body.dataset.theme === 'warm';
+        toggleBtn.innerHTML = isWarm ? sun : moon;
+        toggleBtn.setAttribute('aria-label', isWarm ? 'Switch to light theme' : 'Switch to warm theme');
+      };
+      setIcon();
+      toggleBtn?.addEventListener('click', () => {
+        const next = body.dataset.theme === 'warm' ? 'light' : 'warm';
+        body.dataset.theme = next;
+        localStorage.setItem('portgen-theme', next);
+        setIcon();
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      const setAuthNav = async () => {
+        try {
+          const response = await fetch('auth-status.php', { credentials: 'same-origin' });
+          if (!response.ok) return;
+          const auth = await response.json();
+          const loggedIn = !!auth.loggedIn;
+
+          document.querySelectorAll('[data-auth="guest"]').forEach((el) => {
+            el.hidden = loggedIn;
+          });
+          document.querySelectorAll('[data-auth="user"]').forEach((el) => {
+            el.hidden = !loggedIn;
+          });
+
+          if (loggedIn) {
+            const fullname = (auth.fullname || 'Profile').trim();
+            const firstName = fullname.split(/\s+/)[0] || 'Profile';
+            const initial = firstName.charAt(0).toUpperCase() || 'P';
+            document.querySelectorAll('[data-profile-label]').forEach((el) => {
+              el.textContent = firstName;
+            });
+            document.querySelectorAll('[data-profile-avatar]').forEach((el) => {
+              el.textContent = initial;
+            });
+          }
+        } catch (error) {
+          console.error('Could not determine auth status.', error);
+        }
+      };
+
+      setAuthNav();
+    })();
+  </script>
+  <script>
+    const skillNameInput = document.getElementById('skillNameInput');
+    const skillLevelInput = document.getElementById('skillLevelInput');
+    const skillLevelValue = document.getElementById('skillLevelValue');
+    const addSkillBtn = document.getElementById('addSkillBtn');
+    const skillsList = document.getElementById('skillsList');
+    const skillsDataInput = document.getElementById('skillsData');
+    const skillsCsvInput = document.getElementById('skillsCsv');
+    const portfolioForm = document.getElementById('portfolioForm');
+    const educationDataInput = document.getElementById('educationData');
+    const eduSchoolPrimary = document.getElementById('eduSchoolPrimary');
+    const eduDegreePrimary = document.getElementById('eduDegreePrimary');
+    const eduStartPrimary = document.getElementById('eduStartPrimary');
+    const eduEndPrimary = document.getElementById('eduEndPrimary');
+    const eduSchoolInput = document.getElementById('eduSchoolInput');
+    const eduDegreeInput = document.getElementById('eduDegreeInput');
+    const eduStartInput = document.getElementById('eduStartInput');
+    const eduEndInput = document.getElementById('eduEndInput');
+    const addEducationBtn = document.getElementById('addEducationBtn');
+    const educationList = document.getElementById('educationList');
+
+    const skillsState = [];
+    const educationState = [];
+
+    function syncSkillsInputs() {
+      skillsDataInput.value = JSON.stringify(skillsState);
+      skillsCsvInput.value = skillsState.map(skill => skill.name).join(', ');
+    }
+
+    function renderSkillsList() {
+      skillsList.innerHTML = '';
+
+      skillsState.forEach((skill, index) => {
+        const row = document.createElement('div');
+        row.className = 'skill-item';
+
+        const name = document.createElement('div');
+        name.className = 'skill-item-name';
+        name.textContent = skill.name;
+
+        const level = document.createElement('div');
+        level.className = 'skill-item-level';
+        level.textContent = `${skill.level}%`;
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'btn-remove-skill';
+        remove.textContent = 'Remove';
+        remove.addEventListener('click', () => {
+          skillsState.splice(index, 1);
+          renderSkillsList();
+          syncSkillsInputs();
+        });
+
+        row.appendChild(name);
+        row.appendChild(level);
+        row.appendChild(remove);
+        skillsList.appendChild(row);
+      });
+    }
+
+    function formatEducationPeriod(entry) {
+      const start = entry.start || '...';
+      const end = entry.end || 'Present';
+      return `${start} - ${end}`;
+    }
+
+    function syncEducationInputs() {
+      educationDataInput.value = JSON.stringify(educationState);
+
+      const primary = educationState[0] || null;
+      eduSchoolPrimary.value = primary ? (primary.school || '') : '';
+      eduDegreePrimary.value = primary ? (primary.degree || '') : '';
+      eduStartPrimary.value = primary ? (primary.start || '') : '';
+      eduEndPrimary.value = primary ? (primary.end || '') : '';
+    }
+
+    function renderEducationList() {
+      educationList.innerHTML = '';
+
+      educationState.forEach((entry, index) => {
+        const row = document.createElement('div');
+        row.className = 'education-item';
+
+        const content = document.createElement('div');
+        const title = document.createElement('div');
+        title.className = 'education-item-title';
+        title.textContent = `${entry.degree || 'Degree not specified'} · ${entry.school || 'Institution not specified'}`;
+
+        const subtitle = document.createElement('div');
+        subtitle.className = 'education-item-subtitle';
+        subtitle.textContent = formatEducationPeriod(entry);
+
+        content.appendChild(title);
+        content.appendChild(subtitle);
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'btn-remove-education';
+        remove.textContent = 'Remove';
+        remove.addEventListener('click', () => {
+          educationState.splice(index, 1);
+          renderEducationList();
+          syncEducationInputs();
+        });
+
+        row.appendChild(content);
+        row.appendChild(remove);
+        educationList.appendChild(row);
+      });
+    }
+
+    skillLevelInput?.addEventListener('input', () => {
+      skillLevelValue.textContent = `${skillLevelInput.value}%`;
+    });
+
+    addSkillBtn?.addEventListener('click', () => {
+      const name = (skillNameInput.value || '').trim();
+      const level = parseInt(skillLevelInput.value, 10);
+
+      if (!name) {
+        alert('Enter a skill name first.');
+        return;
+      }
+
+      const exists = skillsState.some(skill => skill.name.toLowerCase() === name.toLowerCase());
+      if (exists) {
+        alert('That skill is already added.');
+        return;
+      }
+
+      if (skillsState.length >= 10) {
+        alert('You can add up to 10 skills.');
+        return;
+      }
+
+      skillsState.push({ name, level: Math.max(10, Math.min(100, level)) });
+      renderSkillsList();
+      syncSkillsInputs();
+      skillNameInput.value = '';
+      skillNameInput.focus();
+    });
+
+    addEducationBtn?.addEventListener('click', () => {
+      const school = (eduSchoolInput.value || '').trim();
+      const degree = (eduDegreeInput.value || '').trim();
+      const start = (eduStartInput.value || '').trim();
+      const end = (eduEndInput.value || '').trim();
+
+      if (!school && !degree) {
+        alert('Enter at least institution or degree to add education.');
+        return;
+      }
+
+      const duplicate = educationState.some((entry) => (
+        entry.school.toLowerCase() === school.toLowerCase() &&
+        entry.degree.toLowerCase() === degree.toLowerCase() &&
+        entry.start === start &&
+        entry.end === end
+      ));
+
+      if (duplicate) {
+        alert('That education entry is already added.');
+        return;
+      }
+
+      if (educationState.length >= 10) {
+        alert('You can add up to 10 education entries.');
+        return;
+      }
+
+      educationState.push({ school, degree, start, end });
+      renderEducationList();
+      syncEducationInputs();
+
+      eduSchoolInput.value = '';
+      eduDegreeInput.value = '';
+      eduStartInput.value = '';
+      eduEndInput.value = '';
+      eduSchoolInput.focus();
+    });
+
+    function showStepForField(field) {
+      const step = field?.closest('.form-step');
+      if (!step) return;
+      document.querySelectorAll('.form-step').forEach((el) => {
+        el.classList.remove('active');
+      });
+      step.classList.add('active');
+    }
+
+    portfolioForm?.addEventListener('submit', (event) => {
+      syncSkillsInputs();
+      syncEducationInputs();
+
+      if (skillsState.length < 2) {
+        event.preventDefault();
+        showStepForField(skillNameInput);
+        alert('Please add at least 2 skills with levels.');
+        return;
+      }
+
+      // Ensure browser validation errors are visible even when invalid fields are in hidden steps.
+      const invalidField = portfolioForm.querySelector(':invalid');
+      if (invalidField) {
+        event.preventDefault();
+        showStepForField(invalidField);
+        invalidField.reportValidity();
+        invalidField.focus();
+        return;
+      }
+
+      const submitBtn = portfolioForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Generating...';
+      }
+    });
+
+    // Seed defaults to make first use easier
+    if (skillsState.length === 0) {
+      skillsState.push({ name: 'HTML', level: 85 }, { name: 'CSS', level: 80 });
+      renderSkillsList();
+      syncSkillsInputs();
+      skillLevelValue.textContent = `${skillLevelInput.value}%`;
+    }
+
+    syncEducationInputs();
+
+    function nextStep(step) {
+      // Hide all steps
+      document.querySelectorAll('.form-step').forEach(el => {
+        el.classList.remove('active');
+      });
+      // Show the target step
+      document.getElementById('step' + step).classList.add('active');
+    }
+
+    function prevStep(step) {
+      nextStep(step); // Same logic works for going back
+    }
+  </script>
+</body>
+</html>
