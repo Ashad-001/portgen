@@ -1,13 +1,3 @@
-================================================================================
-STEP-BY-STEP PUBLISHING INSTRUCTIONS
-================================================================================
-
-1. ADD THE README FILE
-----------------------
-a. Go to your repository: https://github.com/Ashad-001/portgen
-b. Click the green "Add a README" button.
-c. Paste the following Markdown code directly into the editor:
-
 # PortGen - Dynamic Portfolio Builder
 
 ![PortGen Demo](demo.png)
