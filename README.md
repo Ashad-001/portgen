@@ -20,3 +20,18 @@ PortGen is an automated web-based application built using PHP and MySQL that all
 1. **Clone the Repository:**
    ```bash
    git clone [https://github.com/Ashad-001/portgen.git](https://github.com/Ashad-001/portgen.git)
+
+2. Server Configuration (XAMPP):
+
+Move the project directory to your web server root (e.g., C:\xampp\htdocs\portgen).
+
+Start Apache and MySQL in the XAMPP Control Panel.
+
+Import or create the database portgen_db in phpMyAdmin.
+
+Ensure local database configuration in db.php matches your local server credentials:
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'portgen_db';
+
